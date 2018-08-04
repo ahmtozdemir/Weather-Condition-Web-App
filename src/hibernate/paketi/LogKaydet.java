@@ -3,23 +3,17 @@ package hibernate.paketi;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class LogKaydet
-{
-    public  static void databaseVeriEkle(Log log)
-    {
+public class LogKaydet {
+    public  static void databaseVeriEkle(Log log) {
         SessionFactory sessionFactory= LogSessionFactorySingleton.getSessionFactory();
-
         Session session=sessionFactory.getCurrentSession();
 
-        try
-        {
-
+        try {
             session.beginTransaction();
             session.save(log);
             session.getTransaction().commit();
         }
-        finally
-        {
+        finally {
             session.close();
         }
     }
