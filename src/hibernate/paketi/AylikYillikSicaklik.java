@@ -4,8 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="sicaklik_tablosu")
-public class AylikYillikSicaklik
-{
+public class AylikYillikSicaklik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,8 +53,7 @@ public class AylikYillikSicaklik
     @Column(name = "yillik")
     private long yillik;
 
-    public AylikYillikSicaklik()
-    {
+    public AylikYillikSicaklik() {
     }
 
     public AylikYillikSicaklik(String sehir, long ocak, long subat, long mart, long nisan, long mayis, long haziran, long temmuz, long agustos, long eylul, long ekim, long kasim, long aralik, long yillik) {
