@@ -4,19 +4,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class DatabaseVeriUpdate {
-    public  static void databaseUpdate(HavaDurumu havaDurumu)
-    {
+    public  static void databaseUpdate(HavaDurumu havaDurumu) {
+        
         SessionFactory sessionFactory= HavaDurumuSessionFactorySingleton.getSessionFactory();
-
         Session session=sessionFactory.getCurrentSession();
-
-
-
-        try
-        {
+        
+        try {
 
             session.beginTransaction();
-
             session.createQuery("update HavaDurumu  set durum=?, sicaklik=?, basinc=?, nem_orani=?,zaman=? where sehir=?")
                     .setParameter(0,havaDurumu.getDurum())
                     .setParameter(1,havaDurumu.getSicaklik())
@@ -25,15 +20,10 @@ public class DatabaseVeriUpdate {
                     .setParameter(4,havaDurumu.getZaman())
                     .setParameter(5,havaDurumu.getSehir())
                     .executeUpdate();
-
-
             session.getTransaction().commit();
-            System.out.println("HavaDurumu bilgilerini update ettik agam sorunumuz yok !");
-
-
+            System.out.println("HavaDurumu bilgileri update edildi!");
         }
-        finally
-        {
+        finally {
             session.close();
         }
     }
