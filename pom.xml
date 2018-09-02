@@ -51,8 +51,7 @@
             <artifactId>resteasy-servlet-initializer</artifactId>
             <version>${resteasy.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/jstl/jstl -->
+        
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
@@ -65,7 +64,6 @@
         <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
-
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
