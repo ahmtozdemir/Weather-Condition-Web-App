@@ -19,34 +19,25 @@ import java.util.List;
 @WebServlet(urlPatterns = "/ControllerServlet")
 public class ControllerServlet extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         /*
-        Eğerki veritabanımıza bulk datayı parse edip tekrar eklemek istersek burayı çalıştıracağız
+        Veritabanımıza bulk datayı parse edip tekrar eklemek istersek
 
             BulkAylikSicaklikVeritabaninaEkleWebService.bulkDatayiVeritabaninaEkle();
             BulkHavaDurumuVeritabaninaEkleWebService.bulkDatayiVeritabaninaEkle();
 
          */
         String theCommand=request.getParameter("command");
-        if(theCommand.equals("ONLINE"))
-        {
+        if(theCommand.equals("ONLINE")) {
             webServistenDirekGoster(request,response);
-
         }
-        else if(theCommand.equals("OFFLINE"))
-        {
+        else if(theCommand.equals("OFFLINE")) {
             veritabaniServisindenHavaDurumuGoster(request,response);
         }
-        else if(theCommand.equals("AYLIK"))
-        {
+        else if(theCommand.equals("AYLIK")) {
             veritabaniServisindenAylikSicaklikGoster(request,response);
         }
-
-
-
-
     }
 
     private void veritabaniServisindenAylikSicaklikGoster(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,8 +45,8 @@ public class ControllerServlet extends HttpServlet {
         String sehirAdi=request.getParameter("sehir");
         try {
             aylikYillikSicaklik= AylikSicaklikWebServisimizIcinClient.bizimWebServistenVeriCek(sehirAdi);
-        } catch (ParseException e)
-        {
+        } 
+        catch (ParseException e){
             e.printStackTrace();
         }
 
@@ -64,54 +55,39 @@ public class ControllerServlet extends HttpServlet {
         rd.forward(request,response);
     }
 
-
-    private void webServistenDirekGoster(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException
-    {
+    private void webServistenDirekGoster(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
 
         HavaDurumu havaDurumuObjemiz=null;
         String sehirAdi=request.getParameter("sehir");
 
-        //Web Service den veriyi çekiyoruz try catch içinde
+        //Web Service den veriyi çek
         try {
             havaDurumuObjemiz= ClientWebService.webServistenVeriCek(sehirAdi);
-        } catch (ParseException e)
-        {
+        } 
+        catch (ParseException e) {
             e.printStackTrace();
         }
-
-
+        
         request.setAttribute("havaDurumuObjesi",havaDurumuObjemiz);
         RequestDispatcher rd=request.getRequestDispatcher("/onlineHavaDurumu.jsp");
         rd.forward(request,response);
 
     }
 
-    private void veritabaniServisindenHavaDurumuGoster(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+    private void veritabaniServisindenHavaDurumuGoster(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sehirAdi=request.getParameter("sehir");
         List<HavaDurumu> havaDurumuList=null;
 
-        try
-        {
+        try {
             havaDurumuList=new ArrayList<>();
             havaDurumuList= HavaDurumuWebServisimizIcinClient.bizimWebServistenVeriCek(sehirAdi);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
         }
 
         request.setAttribute("havaDurumuListesi",havaDurumuList);
         RequestDispatcher rd=request.getRequestDispatcher("/offlineHavaDurumu.jsp");
         rd.forward(request,response);
-
-
-
     }
-
-
-
-
-
-
 }
