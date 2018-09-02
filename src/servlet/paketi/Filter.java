@@ -2,7 +2,6 @@ package servlet.paketi;
 
 import hibernate.paketi.Log;
 import hibernate.paketi.LogKaydet;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ public class Filter implements javax.servlet.Filter {
     public void init( final FilterConfig filterConfig )
             throws ServletException {
         final String filterParam = filterConfig.getInitParameter("param");
-
         System.out.println(filterParam);
     }
 
@@ -34,12 +32,10 @@ public class Filter implements javax.servlet.Filter {
         System.out.println("IP adress "+remote+" , Time "+new Date().toString()+" , acces to "+reqUrl);
 
         filterChain.doFilter(servletRequest,servletResponse);
-
     }
 
     @Override
     public void destroy() {
         System.out.println("Filter is destroyed..");
     }
-
 }
