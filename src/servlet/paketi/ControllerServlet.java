@@ -5,7 +5,6 @@ import org.json.simple.parser.ParseException;
 import web.servis.paketi.AylikSicaklikWebServisimizIcinClient;
 import web.servis.paketi.ClientWebService;
 import web.servis.paketi.HavaDurumuWebServisimizIcinClient;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
