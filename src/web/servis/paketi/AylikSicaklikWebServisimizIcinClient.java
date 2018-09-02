@@ -10,17 +10,14 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-public class AylikSicaklikWebServisimizIcinClient
-{
-    public static AylikYillikSicaklik bizimWebServistenVeriCek(String sehirAdi) throws ParseException
-    {
+public class AylikSicaklikWebServisimizIcinClient {
+    public static AylikYillikSicaklik bizimWebServistenVeriCek(String sehirAdi) throws ParseException {
+        
         Client client= ClientBuilder.newClient();
         WebTarget target=client.target("http://localhost:8080/service/weather/temperature?sehir="+sehirAdi);
 
         JSONParser jsonParser = new JSONParser();
         JSONObject anaObject = (JSONObject) jsonParser.parse(target.request(MediaType.APPLICATION_JSON).get(String.class) );
-
-
 
         String sehir=(String)anaObject.get("sehir");
         long ocak=(long)anaObject.get("ocak");
@@ -40,10 +37,5 @@ public class AylikSicaklikWebServisimizIcinClient
         AylikYillikSicaklik aylikYillikSicaklik=new AylikYillikSicaklik(sehir,ocak,subat,mart,nisan,mayis,haziran,temmuz,agustos,eylul,ekim,kasim,aralik,yillik);
 
         return aylikYillikSicaklik;
-
-
-
-
     }
-
 }
