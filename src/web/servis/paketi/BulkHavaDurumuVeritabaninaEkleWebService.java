@@ -6,16 +6,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-public class BulkHavaDurumuVeritabaninaEkleWebService
-{
-    public static void bulkDatayiVeritabaninaEkle() throws ParseException
-    {
+public class BulkHavaDurumuVeritabaninaEkleWebService {
+    public static void bulkDatayiVeritabaninaEkle() throws ParseException {
 
         String sehirlerDizisi[]={"ADANA","AFYONKARAHISAR","AGRI","AMASYA","ANKARA",
                 "ANTALYA","ARTVIN","AYDIN","BILECIK","BINGOL","BITLIS","BOLU",
@@ -36,9 +33,7 @@ public class BulkHavaDurumuVeritabaninaEkleWebService
             JSONObject anaObject = (JSONObject) jsonParser.parse(target.request(MediaType.APPLICATION_JSON).get(String.class));
             JSONObject dataObject = (JSONObject) anaObject.get("data");
             JSONArray weatherDizisi = (JSONArray) dataObject.get("weather");
-
-            //Burada bizim için gerekli olan obje variablelerini tanımlıyoruz,null değerler atıyoruz ilk olarak
-
+            
             String sehrimiz = null;
             String durum = null;
             String zaman = null;
@@ -46,29 +41,23 @@ public class BulkHavaDurumuVeritabaninaEkleWebService
             long basinc = 0;
             long nemlilik = 0;
 
-
-            for (int i = 0; i < 14; i++)
-            {//14 günlük veri için dönüyor
-                JSONObject weatherDizisiObjesi = (JSONObject) weatherDizisi.get(i);//i.günün verisini obje olarak alıyoruz
+            for (int i = 0; i < 14; i++) { //14 günlük veri 
+                JSONObject weatherDizisiObjesi = (JSONObject) weatherDizisi.get(i); //i.günün verisi
                 String sehirr = sehirlerDizisi[a];
                 String date = (String) weatherDizisiObjesi.get("date");
 
-                JSONArray birGununSaatlikVerisiDizi = (JSONArray) weatherDizisiObjesi.get("hourly");//i.günün saatlik veri dizisi
+                JSONArray birGununSaatlikVerisiDizi = (JSONArray) weatherDizisiObjesi.get("hourly"); //i.günün saatlik veri dizisi
                 JSONObject saatlikVeri = (JSONObject) birGununSaatlikVerisiDizi.get(0);
-                // saatlik verinin 3. elemanını ortalama değer olsun diye JsonObjesi olarak aldık çünkü bir günü
-                // 7 saate ayırmış.Burdan pressure basinc felan çekeceğiz.
-
+                // saatlik verinin 3. elemanını ortalama değer olsun diye JsonObjesi olarak al. bir gün 7 saate ayırmış.
                 String sicaklikk = (String) saatlikVeri.get("tempC");
                 String nemlilikk = (String) saatlikVeri.get("humidity");
                 String basincc = (String) saatlikVeri.get("pressure");
 
                 JSONArray havaninDurumuDizisi = (JSONArray) saatlikVeri.get("weatherDesc");
                 JSONObject havaninDurumuObjesi = (JSONObject) havaninDurumuDizisi.get(0);
-                String havaDurumu = (String) havaninDurumuObjesi.get("value");//weatherDesc dizisinin ilk indeksini objeye gökyüzü durumunu alıyoruz
+                String havaDurumu = (String) havaninDurumuObjesi.get("value");//weatherDesc dizisinin ilk indeksini objeye gökyüzü durumunu al
 
-            /*Gerekli dönüşümleri yapıp orjinal obje alanlarına atama yapıyoruz.Çünkü bazı json değerlerimiz String
-               ancak veritabanında onları long olarak tutuyoruz bu yüzden String değerleri long'a parse edeceğiz.
-             */
+            // Bazı json değerleri String ancak veritabanında long bu yüzden String değerleri long'a et
                 sehrimiz = sehirr;
                 durum = havaDurumu;
                 zaman = date;
@@ -80,17 +69,10 @@ public class BulkHavaDurumuVeritabaninaEkleWebService
                 HavaDurumuKaydet.databaseVeriEkle(havaDurumuObjemiz);
                 System.out.println("Sehir :" + sehrimiz + " Tarih :" + zaman + " Sicaklik :" + sicaklik + " Nemlilik :" + nemlilik + " Basinc :" + basinc + " HavaDurumu :" + durum);
             }
-
-
-
-
         }
-
     }
 
     public static void main(String[] args) throws ParseException {
         bulkDatayiVeritabaninaEkle();
     }
-
-
 }
